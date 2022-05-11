@@ -5,9 +5,10 @@ import Login from "../routes/Login";
 
 const requireAuth = ({ children }) => {
   const { user } = useContext(UserContext);
+  console.log("log desde requiereauth "+user)
 
   if (!user) {
-    return <Navigate to={<Login />} />;
+    return <Navigate to="/login" />;
   }
 
   return children;
