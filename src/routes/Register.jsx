@@ -1,72 +1,84 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { UserContext } from "../context/UserProvider";
 import { useForm } from "react-hook-form";
+import { errorsFirebase } from "../utils/errorsFirebase";
+import { formValidate } from "../utils/formvalidate";
 import { useNavigate } from "react-router-dom";
-import { async } from "@firebase/util";
+
+import FormError from "../components/FormErrors";
+import FormInputText from "../components/FormInputText";
+import H1Compontent from "../components/H1Compontent";
+import Button from "../components/button";
 
 const Register = () => {
-  const navigate = useNavigate();
   const { registerUser } = useContext(UserContext);
+  const navigate = useNavigate();
 
+  const { required, minLength } = formValidate();
   const {
     register,
     handleSubmit,
     formState: { errors },
     getValues,
-    setValues,
-  } = useForm({
-    defaultValues: {
-      email: "lcdoecheverria@gmail.com"
-    }
-  });
+    setError,
+  } = useForm();
 
   const onSubmit = async ({ email, password }) => {
-    console.log(email, password);
-    
     try {
-
       await registerUser(email, password);
-
+      navigate("/");
     } catch (error) {
-      console.log(error.message)
-      if (error.code === "auth/email-already-in-use")
-       console.log("Usuario ya registrado");
+      const { code, message } = errorsFirebase(error.code);
+      setError(code, { message });
     }
   };
 
   return (
     <>
-      <h1> Registrarse </h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <p>correo</p>
-        <input type="email" {...register("email", { required: true })} />
-        {errors.email && <p>Campo Obligatorio</p>}
-        <p>contraseña</p>
-        <input
+        <H1Compontent text="Registrarse" />
+
+        <FormInputText
+          type="email"
+          placeholder="Coloque su Correo"
+          label="Correo Electrónico"
+          error={errors.email}
+          {...register("email")}
+        >
+          <FormError error={errors.email} />
+        </FormInputText>
+
+        <FormInputText
           type="password"
-          {...register("password", {
-            setValueAs: (v) => v.trim(),
-            minLength: {
-              value: 6,
-              message: "minimo 6 caracteres",
-            },
-          })}
-        />
-        {errors.password && <p>{errors.password.message}</p>}
-        <p>Repita contraseña</p>
-        <input
+          label="Contraseña"
+          placeholder="ingrese su contraseña"
+          {...register("password", { minLength })}
+          error={errors.password}
+        >
+          <FormError error={errors.password} />
+        </FormInputText>
+
+        <FormInputText
           type="password"
+          label="Repita Contraseña"
+          placeholder="vuelva a escribir su contraseña"
+          error={errors.passwordConfirm}
           {...register("passwordConfirm", {
+            required,
             validate: {
               equals: (v) =>
                 v === getValues("password") || "no coinciden las contraseñas",
-              //   message: "no coinciden las contraseñas"
             },
           })}
-        />
-        {errors.passwordConfirm && <p> {errors.passwordConfirm.message}</p>}
-        <button type="submit">Register</button>
+        >
+          <FormError error={errors.passwordConfirm} />
+          
+        </FormInputText>
+
+          <Button text="Registrarse" type="submit" />
+
       </form>
+     
     </>
   );
 };

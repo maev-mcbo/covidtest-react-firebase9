@@ -3,44 +3,71 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserProvider";
 import { useForm } from "react-hook-form";
 
+import { formValidate } from "../utils/formvalidate";
+import { errorsFirebase } from "../utils/errorsFirebase";
+
+import FormInputText from "../components/FormInputText";
+import FormError from "../components/FormErrors";
+import H1Compontent from "../components/H1Compontent";
+import Button from "../components/button";
+import ButtonLoading from "../components/ButtonLoading";
+
 const Login = () => {
+  const [loading, setLoading] = useState();
+  const { loginUser } = useContext(UserContext);
+  const navigate = useNavigate();
+  const { minLength } = formValidate();
 
   const {
     register,
     handleSubmit,
-    formState: { errors }
-  } = useForm({
-    defaultValues: {
-      email: "lcdoecheverria@gmail.com"
-    }
-  });
-
-  const {loginUser } = useContext(UserContext);
-
-  const navigate = useNavigate();
+    formState: { errors },
+    setError,
+  } = useForm();
 
   const onSubmit = async ({ email, password }) => {
     try {
-          await loginUser(email, password);
-          navigate("/")
-        //   navigate(0)
-        }catch (error) {
-            console.log(error.code);
-        }
-  }
+      setLoading(true)
+      await loginUser(email, password);
+      navigate("/dashboard ");
+    } catch (error) {
+      const { code, message } = errorsFirebase(error.code);
+      setError(code, {
+        message,
+      });
+    } finally {
+      setLoading(false)
+    }
+  };
 
   return (
     <>
-      <h1> Login </h1>
+      <H1Compontent text="Login" />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <p>correo</p>
-        <input type="email" {...register("email", { required: true })} />
-        {errors.email && <p>Campo Obligatorio</p>}
+        <FormInputText
+          type="email"
+          placeholder="Coloque su Correo"
+          label="Correo Electrónico"
+          error={errors.email}
+          {...register("email", { minLength })}
+        >
+          <FormError error={errors.email} />
+        </FormInputText>
 
-        <p>contraseña</p>
-        <input type="password" {...register("password", { required: true })} />
-        {errors.password && <p>Campo Obligatorio</p>}
-        <button type="submit">iniciar Sesion</button>
+        <FormInputText
+          type="password"
+          label="Contraseña"
+          placeholder="ingrese su contraseña"
+          {...register("password", { minLength })}
+          error={errors.password}
+        >
+          <FormError error={errors.password} />
+        </FormInputText>
+
+        {
+          loading  ? ( <ButtonLoading text="Iniciando Sesion" /> ) : ( <Button type="submit" text="Iniciar Sesion" />)
+        }
+
       </form>
     </>
   );
