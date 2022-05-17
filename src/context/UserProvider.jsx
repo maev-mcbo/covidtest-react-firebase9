@@ -28,8 +28,8 @@ const UserProvider = ({children}) => {
        await createUserWithEmailAndPassword( auth,email,password);
     }
 
-    const loginUser =  (mail, password) =>{
-         return signInWithEmailAndPassword(auth,mail,password);
+    const loginUser = async (mail, password) =>{
+         return await signInWithEmailAndPassword(auth,mail,password);
 
     
     }

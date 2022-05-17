@@ -1,15 +1,12 @@
-import { async } from '@firebase/util'
-import React from 'react'
+import React, { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { NavLink } from 'react-router-dom'
-import Button from '../components/button'
+import Button from '../components/buttons/Button'
 import FormError from '../components/FormErrors'
-import FormInputText from '../components/FormInputText'
-import H1Compontent from '../components/H1Compontent'
+import FormInputText from '../components/inputs/FormInputText'
+import H1Compontent from '../components/titles/H1Compontent'
 import { useDB } from '../hooks/useDB'
-
 function AddBranch() {
-     
     const {addBranch} = useDB()
     const {handleSubmit, formState: { errors}, register} = useForm()
 

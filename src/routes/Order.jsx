@@ -1,14 +1,14 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { useDB } from "../hooks/useDB";
-import H1Compontent from "../components/H1Compontent";
-import Button from "../components/button";
+import H1Compontent from "../components/titles/H1Compontent";
+import Button from "../components/buttons/Button";
+import Orderlist from "../components/lists/Orderlist";
 
 const Order = () => {
   return (
-    <div className="container">
+    <div className="mx-auto">
       <H1Compontent text="Bandeja de ordenes" />
-      *Componentes lista de ordenes *
+      <Orderlist />
       <NavLink to="/create">
         <Button type="button" text="Crear Orden" />
       </NavLink>

@@ -1,6 +1,5 @@
 import React from 'react'
-import H1Compontent from '../components/H1Compontent';
-import SelectSucursalInput from '../components/SelectSucursalInput';
+import H1Compontent from '../components/titles/H1Compontent';
 
 function Dashboard() {
 

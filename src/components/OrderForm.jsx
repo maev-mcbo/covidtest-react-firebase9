@@ -1,27 +1,22 @@
 import React from "react";
-
-// import { useContext } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { UserContext } from "../context/UserProvider";
 import { useForm } from "react-hook-form";
-
-// import { formValidate } from "../utils/formvalidate";
 import { errorsFirebase } from "../utils/errorsFirebase";
+import { useDB } from "../hooks/useDB";
 
-import FormInputText from "../components/FormInputText";
+import FormInputText from "./inputs/FormInputText";
 import FormError from "../components/FormErrors";
-import H1Compontent from "../components/H1Compontent";
-import Button from "../components/button";
-import SelectGenderInput from "./SelectGenderInput";
-import SelectCountryInput from "./SelectCountryInput";
-import SelectTestInput from "./SelectTestInput";
-import SelectSucursalInput from "./SelectSucursalInput";
-import SelectLinesInput from "./SelectLinesInput";
+import H1Compontent from "./titles/H1Compontent";
+import Button from "./buttons/Button";
+import SelectGenderInput from "./selects/SelectGenderInput";
+import SelectCountryInput from "./selects/SelectCountryInput";
+import SelectTestInput from "./selects/SelectTestInput";
+import SelectSucursalInput from "./selects/SelectSucursalInput";
+import SelectLinesInput from "./selects/SelectLinesInput";
 
 const OrderForm = () => {
-  // const navigate = useNavigate();
-  // const { minLength } = formValidate();
+const {addOrder, loading} = useDB()
 
+ 
   const {
     register,
     handleSubmit,
@@ -29,9 +24,11 @@ const OrderForm = () => {
     setError,
   } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (orderData) => {
     try {
-      console.log(data);
+
+      console.log(orderData);
+      await addOrder(orderData)
     } catch (error) {
       const { code, message } = errorsFirebase(error.code);
       setError(code, {
@@ -46,13 +43,13 @@ const OrderForm = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <h1 className="text-2xl p-3">Datos Personales</h1>
         <FormInputText
-          type="number"
-          placeholder=""
+          type="text"
+          placeholder="Ingrese el cedula"
           label="Cedula"
           error={errors.cid}
           {...register("cid", {
-            required: true,
-            minLength: { value: 3, message: "muy corto" },
+            minLength: { value: 3, message: "Cedula invalida" },
+            pattern: {value: /^[0-9]*$/ , message: "Solo numeros"}
           })}
         >
           <FormError error={errors.cid} />
@@ -60,12 +57,12 @@ const OrderForm = () => {
 
         <FormInputText
           type="text"
-          placeholder=""
+          placeholder="Ingrese el nombre"
           label="Nombre"
           error={errors.fname}
           {...register("fname", {
             required: true,
-            minLength: { value: 3, message: "muy corto" },
+            minLength: { value: 3, message: "Nombre muy corto" },
           })}
         >
           <FormError error={errors.fname} />
@@ -78,7 +75,7 @@ const OrderForm = () => {
           error={errors.lname}
           {...register("lname", {
             required: true,
-            minLength: { value: 3, message: "muy corto" },
+            minLength: { value: 3, message: "Apellido muy corto" },
           })}
         >
           <FormError error={errors.lname} />
@@ -89,9 +86,7 @@ const OrderForm = () => {
           placeholder=""
           label="Correo"
           error={errors.email}
-          {...register("email", {
-            required: true,
-            minLength: { value: 3, message: "muy corto" },
+          {...register("email", { pattern:{value:  /[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})/, message: "Esto no es un Email" }
           })}
         >
           <FormError error={errors.email} />
@@ -104,7 +99,7 @@ const OrderForm = () => {
           error={errors.passport}
           {...register("passport", {
             required: true,
-            minLength: { value: 3, message: "muy corto" },
+            minLength: { value: 3, message: "Numero de Pasaporte ivalido" },
           })}
         >
           <FormError error={errors.passport} />
@@ -116,8 +111,7 @@ const OrderForm = () => {
           label="Fecha de Nacimiento"
           error={errors.dob}
           {...register("dob", {
-            required: true,
-            minLength: { value: 3, message: "muy corto" },
+            valueAsDate: true,
           })}
         >
           <FormError error={errors.dob} />
@@ -126,7 +120,7 @@ const OrderForm = () => {
         <SelectGenderInput
           label="Genero"
           error={errors.gender}
-          {...register("gender", {required: true})}
+          {...register("gender", {required: true, message:"Seleccione un Genero"})}
         >
           <FormError error={errors.gender} />
         </SelectGenderInput>
@@ -134,7 +128,7 @@ const OrderForm = () => {
         <SelectCountryInput
           label="Seleccione Pais de Nacimiento"
           error={errors.country}
-          {...register("country",{required: true})}
+          {...register("country",{required: true,message:"Seleccione un Genero"})}
         >
           <FormError error={errors.country} />
         </SelectCountryInput>
@@ -146,7 +140,7 @@ const OrderForm = () => {
           error={errors.address}
           {...register("address", {
             required: true,
-            minLength: { value: 3, message: "muy corto" },
+            minLength: { value: 3, message: "Dirección invalida" },
           })}
         >
           <FormError error={errors.address} />
@@ -157,7 +151,7 @@ const OrderForm = () => {
         <SelectTestInput
           label="Seleccione tipo de prueba:"
           error={errors.testtype}
-          {...register("testtype")}
+          {...register("testtype" ,{required:{value:true, message: "Seleccione un tipo de prueba"}})}
         >
           <FormError error={errors.testtype} />
         </SelectTestInput>
@@ -165,7 +159,7 @@ const OrderForm = () => {
         <SelectSucursalInput
           label="Seleccione Sucursal"
           error={errors.suc}
-          {...register("suc")}
+          {...register("suc",{required:{value:true, message: "Seleccione una Sucursal"}})}
         >
           <FormError error={errors.suc} />
         </SelectSucursalInput>
@@ -176,7 +170,7 @@ const OrderForm = () => {
         <SelectCountryInput
           label="Seleccione Pais de Origen"
           error={errors.origin}
-          {...register("origin")}
+          {...register("origin", {required:{value:true, message: "Seleccione un Pais de Origen"}})}
         >
           <FormError error={errors.origin} />
         </SelectCountryInput>
@@ -184,7 +178,7 @@ const OrderForm = () => {
         <SelectCountryInput
           label="Seleccione Pais de Destino"
           error={errors.dest}
-          {...register("dest")}
+          {...register("dest" ,{required:{value:true, message: "Seleccione un destino"}})}
         >
           <FormError error={errors.dest} />
         </SelectCountryInput>
@@ -192,7 +186,7 @@ const OrderForm = () => {
           <SelectLinesInput 
                   label="Aerolinea"
                   error={errors.lines}
-                  {...register("lines")}
+                  {...register("lines" ,{required:{value:true, message: "Seleccione una Aerolinea"}})}
                 >
                   <FormError error={errors.lines} />
 
@@ -203,10 +197,7 @@ const OrderForm = () => {
           placeholder=""
           label="Fecha de Salida"
           error={errors.departureDate}
-          {...register("departureDate", {
-            required: true,
-            minLength: { value: 3, message: "muy corto" },
-          })}
+          {...register("departureDate", {valueAsDate:true})}
         >
           <FormError error={errors.departureDate} />
         </FormInputText>
@@ -215,16 +206,14 @@ const OrderForm = () => {
           placeholder=""
           label="Fecha de llegada"
           error={errors.arrivaldate}
-          {...register("arrivaldate", {
-            required: true,
-            minLength: { value: 3, message: "muy corto" },
-          })}
+          {...register("arrivaldate", {valueAsDate:true})}
         >
           <FormError error={errors.arrivaldate} />
         </FormInputText>
 
 
-        <Button type="submit" text="Crear Orden" />
+        <Button type="submit" loading={loading.addOrderLoading} text="Crear Orden" />
+     
       </form>
     </div>
   );

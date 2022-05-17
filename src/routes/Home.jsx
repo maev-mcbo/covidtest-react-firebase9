@@ -1,15 +1,12 @@
-
+import H1Compontent from "../components/titles/H1Compontent";
 
 const Home = () => {
-    console.log("hola soy home");
 
+  return (
+    <>
+        <H1Compontent text="Home" />
+    </>
+  );
+};
 
-    return (
-        <>
-            <h1> Home </h1>
-
-        </>
-    )
-}
-
-export default Home
+export default Home;

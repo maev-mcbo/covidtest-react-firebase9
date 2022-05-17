@@ -19,7 +19,7 @@ const FormInputText = forwardRef(
       <>
         <div className="mb-6">
           <label
-            htmlFor="email"
+            htmlFor="inputForm"
             className={classlabel}
           >
             {label}
@@ -31,9 +31,9 @@ const FormInputText = forwardRef(
             onChange={onChange}
             onBlur={onBlur}
             name={name}
-            id="email"
+            id="inputForm"
+            autoComplete="off"
             className={inputlabel}
-            required
           />
         {children}
         </div>

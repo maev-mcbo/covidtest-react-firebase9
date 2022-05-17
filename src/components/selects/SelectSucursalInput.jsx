@@ -1,6 +1,5 @@
 import { forwardRef, useEffect } from "react";
-import { useDB } from "../hooks/useDB";
-import SpinnerLoader from "./SpinnerLoader";
+import { useDB } from "../../hooks/useDB";
 
 const SelectSucursalInput = forwardRef(
   ({ onChange, onBlur, name, label, children, error }, ref) => {
@@ -18,7 +17,7 @@ const SelectSucursalInput = forwardRef(
     const classlabel = error ? labelClassError : labelOKClass;
     const inputlabel = error ? inputFieldClassError : inputOKClass;
 
-    const { dataBranches, getBranch } = useDB();
+    const { data, getBranch } = useDB();
 
     useEffect(() => {
       getBranch();
@@ -41,8 +40,8 @@ const SelectSucursalInput = forwardRef(
             <option disabled={true} selected={true}>
               Seleccione uno
             </option>
-            {dataBranches ? (
-              dataBranches.map((item) => (
+            {data ? (
+              data.map((item) => (
                 <option value={item.suc}>{item.suc}</option>
               ))
             ) : (

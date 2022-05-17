@@ -1,5 +1,5 @@
 import React from 'react'
-import H1Compontent from '../components/H1Compontent'
+import H1Compontent from '../components/titles/H1Compontent'
 
 function Not404() {
   return (

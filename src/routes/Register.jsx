@@ -6,9 +6,9 @@ import { formValidate } from "../utils/formvalidate";
 import { useNavigate } from "react-router-dom";
 
 import FormError from "../components/FormErrors";
-import FormInputText from "../components/FormInputText";
-import H1Compontent from "../components/H1Compontent";
-import Button from "../components/button";
+import FormInputText from "../components/inputs/FormInputText";
+import H1Compontent from "../components/titles/H1Compontent";
+import Button from "../components/buttons/Button";
 
 const Register = () => {
   const { registerUser } = useContext(UserContext);
@@ -43,7 +43,7 @@ const Register = () => {
           placeholder="Coloque su Correo"
           label="Correo Electrónico"
           error={errors.email}
-          {...register("email")}
+          {...register("email",{ minLength, pattern:{value:  /[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})/, message: "esto no es un email"} })}
         >
           <FormError error={errors.email} />
         </FormInputText>
