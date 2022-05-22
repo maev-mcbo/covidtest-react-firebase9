@@ -50,31 +50,46 @@ function OrderDetails() {
           {loading.getSingleOrderLoading ? (
             <SpinnerLoader />
           ) : (
-            <div>
-              <p>{data.address}</p>
-              <p>{data.arrivaldate}</p>
-              <p>{data.cid}</p>
-              <p>{data.country}</p>
-              <p>{data.createdBy}</p>
-              <p>{data.departureDate}</p>
-              <p>{data.dest}</p>
-              <p>{data.dob}</p>
-              <p>{data.email}</p>
-              <p>{data.fname}</p>
-              <p>{data.gender}</p>
-              <p>{data.lines}</p>
-              <p>{data.lname}</p>
-              <p>{data.origin}</p>
-              <p>{data.passport}</p>
-              <p>{data.suc}</p>
-              <p>{data.testtype}</p>
+            <div className="grid overflow-hidden grid-cols-2 grid-rows-1 gap-6 uppercase">
+              <div className="item">
+                <Button
+                  text="Volver"
+                  onClick={() => {
+                    history.back();
+                  }}
+                />
+                <p className="text-xs">Nombre:</p>
+                <p className="text-xl pb-4">
+                  {data.fname} {data.lname}
+                </p>
+                <p className="text-xs">Cedula:</p>
+                <p className="text-xl pb-4">{data.cid}</p>
+                <p className="text-xs">Pasaporte:</p>
+                <p className="text-xl pb-4">{data.passport}</p>
+                <p className="text-xs">Origen:</p>
+                <p className="text-xl pb-4">{data.origin}</p>
+                <p className="text-xs">Fecha de Salida:</p>
+                <p className="text-xl pb-4">{data.departureDate}</p>
+                <p className="text-xs">Aerolinea:</p>
+                <p className="text-xl pb-4">{data.lines}</p>
+                <p className="text-xs">Tipo de Prueba:</p>
+                <p className="text-xl pb-4">{data.testtype}</p>
+                <p className="text-xs">Estado del pago:</p>
+                <p className="align-middle text-xl">{data.paymentStatus} <span> <Button text="Agregar Pago" /></span> <span> <Button text="Modificar Pago" /></span></p> 
+                <p className="text-xs">Resultado:</p>
+                <p className="text-xl pb-4">{data.testResult}</p>
+              </div>
+              <div className="item w-4/12 h-32 flex-grow">
+                <div className="item">segunda columna</div>
+              </div>
             </div>
           )}
 
-          <Button
-            text="Volver"
+          
+<Button
+            text="Anular"
             onClick={() => {
-              history.back();
+              handleDeleteButton(id);
             }}
           />
 

@@ -83,7 +83,8 @@ export const useDB = () => {
                 testtype: orderData.testtype,
                 createdBy: auth.currentUser.uid,
                 paymentCurrency: 'null',
-                paymentStatus: 'null',
+                paymentStatus: 'pendiente',
+                testResult: 'pendiente',
 
             }
 
