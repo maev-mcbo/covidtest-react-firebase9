@@ -2,7 +2,6 @@ import { useContext } from "react";
 import { UserContext } from "../context/UserProvider";
 import { useForm } from "react-hook-form";
 import { errorsFirebase } from "../utils/errorsFirebase";
-import { formValidate } from "../utils/formvalidate";
 import { useNavigate } from "react-router-dom";
 
 import FormError from "../components/FormErrors";
