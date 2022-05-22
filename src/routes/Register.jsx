@@ -13,7 +13,6 @@ const Register = () => {
   const { registerUser } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const { required, minLength } = formValidate();
   const {
     register,
     handleSubmit,
