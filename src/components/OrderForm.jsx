@@ -29,6 +29,7 @@ const {addOrder, loading} = useDB()
 
       console.log(orderData);
       await addOrder(orderData)
+      history.back()
     } catch (error) {
       const { code, message } = errorsFirebase(error.code);
       setError(code, {
@@ -111,7 +112,7 @@ const {addOrder, loading} = useDB()
           label="Fecha de Nacimiento"
           error={errors.dob}
           {...register("dob", {
-            valueAsDate: true,
+           required: {value: true, message: "Falta fecha"}
           })}
         >
           <FormError error={errors.dob} />
@@ -197,7 +198,7 @@ const {addOrder, loading} = useDB()
           placeholder=""
           label="Fecha de Salida"
           error={errors.departureDate}
-          {...register("departureDate", {valueAsDate:true})}
+          {...register("departureDate",{ required: {value: true, message: "Falta fecha"}})}
         >
           <FormError error={errors.departureDate} />
         </FormInputText>
@@ -206,7 +207,7 @@ const {addOrder, loading} = useDB()
           placeholder=""
           label="Fecha de llegada"
           error={errors.arrivaldate}
-          {...register("arrivaldate", {valueAsDate:true})}
+          {...register("arrivaldate",{ required: {value: true, message: "Falta fecha"}})}
         >
           <FormError error={errors.arrivaldate} />
         </FormInputText>

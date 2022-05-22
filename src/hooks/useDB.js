@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { addDoc, collection, deleteDoc, doc, getDocs } from "firebase/firestore/lite"
+import { addDoc, collection, deleteDoc, doc, getDocs, getDoc } from "firebase/firestore/lite"
 import { auth, db } from "../firebase"
 
 export const useDB = () => {
@@ -28,14 +28,10 @@ export const useDB = () => {
     const getOrders = async () => {
         try {
             setLoading((prev) => ({ ...prev, getOrdersLoading: true }));
-            console.log("Estado cambiado a :" + loading);
             const getOrders = await getDocs(collection(db, "orders"));
-            const dataDB = getOrders.docs.map((doc) => ( Object.assign({id:doc.id },{data: doc.data()})));
+            const dataDB = getOrders.docs.map((doc) => (Object.assign({ id: doc.id }, { data: doc.data() })));
             Object.fromEntries(dataDB)
-            console.log(dataDB);
             setData(dataDB)
-
-            
         } catch (error) {
             console.log(error);
             setError(error.message)
@@ -69,23 +65,26 @@ export const useDB = () => {
         try {
             setLoading((prev) => ({ ...prev, addOrderLoading: true }));
             const newOrderData = {
-                address: orderData.address,
-                arrivaldate: orderData.arrivaldate,
                 cid: orderData.cid,
+                fname: orderData.fname,
+                lname: orderData.lname,
+                gender: orderData.gender,
+                email: orderData.email,
+                dob: orderData.dob,
+                address: orderData.address,
                 country: orderData.country,
+                arrivaldate: orderData.arrivaldate,
                 departureDate: orderData.departureDate,
                 dest: orderData.dest,
-                dob: orderData.dob,
-                email: orderData.email,
-                fname: orderData.fname,
-                gender: orderData.gender,
                 lines: orderData.lines,
-                lname: orderData.lname,
                 origin: orderData.origin,
                 passport: orderData.passport,
                 suc: orderData.suc,
                 testtype: orderData.testtype,
-                createdBy: auth.currentUser.uid
+                createdBy: auth.currentUser.uid,
+                paymentCurrency: 'null',
+                paymentStatus: 'null',
+
             }
 
             const orderToBeAdded = await addDoc(collection(db, "orders"), newOrderData)
@@ -102,6 +101,8 @@ export const useDB = () => {
 
     const deleteData = async (id) => {
         try {
+            
+
             setLoading((prev) => ({ ...prev, [id]: true }));
             const docRef = doc(db, "orders", id);
             await deleteDoc(docRef);
@@ -110,11 +111,28 @@ export const useDB = () => {
             console.log(error);
             setError(error.code);
         } finally {
-            setLoading((prev) => ({ ...prev, [id]: false  }));
+            setLoading((prev) => ({ ...prev, [id]: false }));
         }
-    };
+    }
+
+
+    const getSingleOrder = async (id) => {
+        try {
+            console.log("el ID a buscar es:" + id );
+            setLoading((prev) => ({ ...prev, getSingleOrderLoading: true }));
+            console.log("Estado cambiado a :" + loading);
+            const dataDB = (await getDoc(doc(db, 'orders', id))).data()
+
+            setData(dataDB)
+        } catch (error) {
+            console.log(error);
+            setError(error.message)
+        } finally {
+            setLoading((prev) => ({ ...prev, getSingleOrderLoading: false }))
+        }
+    }
 
     return {
-        data, error, loading, getBranch, addBranch, addOrder, getOrders,deleteData
+        data, error, loading, getBranch, addBranch, addOrder, getOrders, deleteData, getSingleOrder
     }
 }

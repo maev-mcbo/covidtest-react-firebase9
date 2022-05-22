@@ -23,11 +23,14 @@ function Branches() {
              <div className=" p-6 mb-5 max-w bg-white rounded-lg border border-gray-200 shadow-md  dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"> 
 
        <ul>
-          <li key={item.uid}>
+          <li key={item.id}>
            
             <p>Nombre: {item.suc} </p>
             <p>Direccion: {item.sucAddress}</p>
             <p>Creada por: {item.createdBy}</p>
+            <p>Creada por: {item.id}</p>
+            <Button text="borrar" onClick={ () => handleDeleteButton(item.id)} loading={loading[item.id]}/>
+
           </li>
         </ul>
         </div>
