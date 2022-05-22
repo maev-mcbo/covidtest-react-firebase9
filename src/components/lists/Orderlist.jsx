@@ -1,44 +1,79 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDB } from "../../hooks/useDB";
-import Button from "../buttons/Button";
-import SpinnerLoader from "../SpinnerLoader";
+import OrderListComponent from "../OrderListComponent";
 
 function Orderlist() {
-  const { getOrders, data, loading, deleteData } = useDB();
+  const { getOrders, data, loading } = useDB();
+  // the value of the search field 
+  const [name, setName] = useState('');
+
+  // the search result
+  const [filteredUsers, setFilteredUsers] = useState([]);
+
+  const filter = (e) => {
+    const keyword = e.target.value;
+
+    if (keyword !== '') {
+      const results = data.filter((item) => {
+        return item.data.fname.toLowerCase().startsWith(keyword.toLowerCase());
+        // Use the toLowerCase() method to make it case-insensitive
+      });
+      setFilteredUsers(results);
+    } else {
+      setFilteredUsers(data);
+      // If the text field is empty, show all users
+    }
+
+    setName(keyword);
+  };
+
+
   useEffect(() => {
     getOrders();
   }, []);
-  if (loading.getOrdersLoading) return <SpinnerLoader />;
 
-  console.log("Esta es el id:  " + data);
 
-  const handleDeleteButton = (id) => {
-   deleteData(id)
-  };
 
-  const handleDetailsButton = () => {
-    console.log("detalles");
-  };
   return (
     <>
-      
-        {data.map((item) => (
-          <div className=" p-6 mb-5 max-w 
-          bg-white rounded-lg border 
-          border-gray-200 shadow-md  
-          dark:bg-gray-800 
-          dark:border-gray-700 
-          dark:hover:bg-gray-700">
-         <ul key={item.id}>
-              <li >
-                <p>id: {item.id}</p>
-                <p>Nombre: {item.data.fname} {item.data.lname} </p>
-              </li>
-              <Button text="borrar" onClick={ () => handleDeleteButton(item.id)} loading={loading[item.id]}/>
-              </ul>
-</div>
-        ))}
-     
+          <input
+        type="search"
+        value={name}
+        onChange={filter}
+        className=" w-2/5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        placeholder="Filter"
+      />
+ 
+     {
+       filteredUsers && filteredUsers.length > 0 ? (
+            filteredUsers.map((item) => (
+         
+             <OrderListComponent fname={item.data.fname}
+             lname={item.data.lname}
+             passport={item.data.passport}
+             cid={item.data.cid}
+             orderid={item.id}
+            key={item.id}
+             
+                 />
+            )) ) : (
+              data.map((item) => (
+         
+                <OrderListComponent fname={item.data.fname}
+                lname={item.data.lname}
+                passport={item.data.passport}
+                cid={item.data.cid}
+                orderid={item.id}
+                key={item.id}
+                
+               
+                    />
+                    
+               ))
+            )
+          
+          
+          }
     </>
   );
 }
