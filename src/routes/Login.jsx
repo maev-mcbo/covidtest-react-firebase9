@@ -7,7 +7,7 @@ import { errorsFirebase } from "../utils/errorsFirebase";
 import FormInputText from "../components/inputs/FormInputText";
 import FormError from "../components/FormErrors";
 import H1Compontent from "../components/titles/H1Compontent";
-import Button from "../components/buttons/button";
+import Button from "../components/buttons/Button";
 import ButtonLoading from "../components/buttons/ButtonLoading";
 
 const Login = () => {
