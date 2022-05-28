@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Button from "../components/buttons/Button";
+import ButtonOutline from "../components/buttons/ButtonOutline";
+
 import SpinnerLoader from "../components/SpinnerLoader";
 import H1Compontent from "../components/titles/H1Compontent";
 import { useDB } from "../hooks/useDB";
@@ -13,6 +15,7 @@ function OrderDetails() {
   useEffect(() => {
     getSingleOrder(id);
   }, []);
+  
   const handleDeleteButton = (id) => {
     Swal.fire({
       title: "Esta seguro que desea Eliminar esta orden?",
@@ -40,11 +43,32 @@ function OrderDetails() {
     });
   };
 
+
+const handlePayment = () => {
+  const { value: formValues } =  Swal.fire({
+    title: 'Multiple inputs',
+    html:
+      '<input id="swal-input1" class="swal2-input">' +
+      '<input id="swal-input2" class="swal2-input">',
+    focusConfirm: false,
+    preConfirm: () => {
+      return [
+        document.getElementById('swal-input1').value,
+        document.getElementById('swal-input2').value
+      ]
+    }
+  })
+  
+  if (formValues) {
+    Swal.fire(JSON.stringify(formValues))
+    console.log(formValues);
+  }
+}
   return (
     <>
       <div>
-        <H1Compontent
-          text={`Detalle de la orden ${id} de la persona ${data.fname}`}
+        <H1Compontent 
+          text="Detalles de la orden"
         />
         <div className=" p-6 mb-5 max-w bg-white rounded-lg border border-gray-200 shadow-md  dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
           {loading.getSingleOrderLoading ? (
@@ -52,7 +76,7 @@ function OrderDetails() {
           ) : (
             <div className="grid overflow-hidden grid-cols-2 grid-rows-1 gap-6 uppercase">
               <div className="item">
-                <Button
+                <ButtonOutline
                   text="Volver"
                   onClick={() => {
                     history.back();
@@ -75,25 +99,33 @@ function OrderDetails() {
                 <p className="text-xs">Tipo de Prueba:</p>
                 <p className="text-xl pb-4">{data.testtype}</p>
                 <p className="text-xs">Estado del pago:</p>
-                <p className="align-middle text-xl">{data.paymentStatus} <span> <Button text="Agregar Pago" /></span> <span> <Button text="Modificar Pago" /></span></p> 
-                <p className="text-xs">Resultado:</p>
-                <p className="text-xl pb-4">{data.testResult}</p>
+                <p className="align-middle text-xl">{data.paymentStatus} <span> <ButtonOutline onClick={() => {handlePayment()}} text="Agregar Pago" /></span> <span> <ButtonOutline text="Modificar Pago" /></span></p> 
+                <p className="text-xs">Resultado: </p>
+                <p className="text-xl pb-4">{data.testResult} <span> <ButtonOutline  text="Modificar Resultado" /> </span> </p>
               </div>
               <div className="item w-4/12 h-32 flex-grow">
-                <div className="item">segunda columna</div>
+              <p className="text-xs">Id de orden:</p>
+                <p className="text-xl pb-4">{data.id}</p>
+                <p className="text-xs">Telefono:</p>
+                <p className="text-xl pb-4">{data.phone}</p>
+                <p className="text-xs">destino:</p>
+                <p className="text-xl pb-4">{data.dest}</p>
+                <p className="text-xs"># de vuelo:</p>
+                <p className="text-xl pb-4">{data.fseat}</p>
+
               </div>
             </div>
           )}
 
           
-<Button
+<ButtonOutline
             text="Anular"
             onClick={() => {
               handleDeleteButton(id);
             }}
           />
 
-          <Button
+          <ButtonOutline
             text="Borrar"
             onClick={() => {
               handleDeleteButton(id);

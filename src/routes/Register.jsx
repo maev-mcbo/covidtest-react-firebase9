@@ -41,7 +41,7 @@ const Register = () => {
           placeholder="Coloque su Correo"
           label="Correo Electrónico"
           error={errors.email}
-          {...register("email",{ minLength, pattern:{value:  /[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})/, message: "esto no es un email"} })}
+          {...register("email",{ min:{value: 6, message: "Muy corto"}, pattern:{value:  /[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})/, message: "esto no es un email"} })}
         >
           <FormError error={errors.email} />
         </FormInputText>
@@ -50,7 +50,7 @@ const Register = () => {
           type="password"
           label="Contraseña"
           placeholder="ingrese su contraseña"
-          {...register("password", { minLength })}
+          {...register("password", { min:{value: 6, message: "Muy corto"}  })}
           error={errors.password}
         >
           <FormError error={errors.password} />
@@ -62,7 +62,7 @@ const Register = () => {
           placeholder="vuelva a escribir su contraseña"
           error={errors.passwordConfirm}
           {...register("passwordConfirm", {
-            required,
+            required: true,
             validate: {
               equals: (v) =>
                 v === getValues("password") || "no coinciden las contraseñas",

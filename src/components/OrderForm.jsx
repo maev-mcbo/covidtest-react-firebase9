@@ -106,6 +106,20 @@ const {addOrder, loading} = useDB()
           <FormError error={errors.passport} />
         </FormInputText>
 
+        
+        <FormInputText
+          type="text"
+          placeholder=""
+          label="phone"
+          error={errors.phone}
+          {...register("phone", {
+            required: true,
+            minLength: { value: 3, message: "Numero de telefono ivalido" },
+          })}
+        >
+          <FormError error={errors.phone} />
+        </FormInputText>
+
         <FormInputText
           type="date"
           placeholder=""
@@ -192,6 +206,18 @@ const {addOrder, loading} = useDB()
                   <FormError error={errors.lines} />
 
           </SelectLinesInput>
+        
+   
+        
+          <FormInputText
+          type="text"
+          placeholder=""
+          label="Numero de Asiento"
+          error={errors.fseat}
+          {...register("fseat",{ required: {value: true, message: "Asiento requerido"}})}
+        >
+          <FormError error={errors.fseat} />
+        </FormInputText>
         
         <FormInputText
           type="date"
