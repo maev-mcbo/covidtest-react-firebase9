@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { UserContext } from "../context/UserProvider";
+import logo from '../assets/img/logo.png'
 
 const Navbar = () => {
   const { user, logoutUser } = useContext(UserContext);
@@ -23,7 +24,7 @@ const Navbar = () => {
             className="flex items-center"
           >
             <img
-              src="src/assets/img/logo.png"
+              src={logo}
               className="mr-3 h-6 sm:h-9"
               alt="SGPC"
             />
