@@ -50,6 +50,7 @@ const Register = () => {
           type="password"
           label="Contraseña"
           placeholder="ingrese su contraseña"
+          id="password"
           {...register("password", { min:{value: 6, message: "Muy corto"}  })}
           error={errors.password}
         >
@@ -61,6 +62,7 @@ const Register = () => {
           label="Repita Contraseña"
           placeholder="vuelva a escribir su contraseña"
           error={errors.passwordConfirm}
+          id="passwordConfirm"
           {...register("passwordConfirm", {
             required: true,
             validate: {
