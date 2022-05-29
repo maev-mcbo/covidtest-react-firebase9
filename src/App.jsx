@@ -38,7 +38,6 @@ const App = () => {
       <Navbar />
       <Routes>
         <Route index element={<Home />} />
-        <Route path="/order" element={<Order />} />
         <Route path="/" element={<LayoutRequireAuth />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/order" element={<Order />} />
