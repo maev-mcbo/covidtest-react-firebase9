@@ -2,7 +2,6 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import H1Compontent from "../components/titles/H1Compontent";
 import Button from "../components/buttons/Button";
-import OrderListComponent from "../components/OrderListComponent";
 import Orderlist from "../components/lists/Orderlist";
 
 const Order = () => {

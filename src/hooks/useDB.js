@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { addDoc, collection, deleteDoc, doc, getDocs, getDoc } from "firebase/firestore/lite"
+import { addDoc, collection, deleteDoc, doc, getDocs, getDoc, setDoc, updateDoc } from "firebase/firestore/lite"
 import { auth, db } from "../firebase"
 
 export const useDB = () => {
@@ -10,6 +10,11 @@ export const useDB = () => {
 
 
 
+/**
+ * set the state of loading to true, then I'm try to get the data from the database,
+ * then set the state of data to the data I got from the database, finally set
+ * the state of loading to false.
+ */
     const getBranch = async () => {
         try {
             setLoading((prev) => ({ ...prev, getBranchLoading: true }));
@@ -25,6 +30,9 @@ export const useDB = () => {
         }
     }
 
+/**
+ * get the data from the database and then set it to the state.
+ */
     const getOrders = async () => {
         try {
             setLoading((prev) => ({ ...prev, getOrdersLoading: true }));
@@ -39,7 +47,6 @@ export const useDB = () => {
             setLoading((prev) => ({ ...prev, getOrdersLoading: false }))
         }
     }
-
     const addBranch = async (branchData) => {
         try {
             setLoading((prev) => ({ ...prev, addBranchLoading: true }));
@@ -61,6 +68,10 @@ export const useDB = () => {
     }
 
 
+/**
+ * It adds a new order to the database.
+ * @param orderData 
+ */
     const addOrder = async (orderData) => {
         try {
             setLoading((prev) => ({ ...prev, addOrderLoading: true }));
@@ -83,13 +94,11 @@ export const useDB = () => {
                 fseat: orderData.fseat,
                 testtype: orderData.testtype,
                 createdBy: auth.currentUser.uid,
-                phone:orderData.phone,
+                phone: orderData.phone,
                 paymentCurrency: 'null',
                 paymentStatus: 'pendiente',
                 testResult: 'pendiente',
-
             }
-
             const orderToBeAdded = await addDoc(collection(db, "orders"), newOrderData)
             console.log("Se agrego la nueva orden" + orderToBeAdded.id)
         } catch (error) {
@@ -97,15 +106,18 @@ export const useDB = () => {
             setError(error.message)
         } finally {
             setLoading((prev) => ({ ...prev, addOrderLoading: false }));
-
         }
     }
 
 
+/**
+ * It takes an id, sets the loading state to true for that id, gets the document reference, deletes the
+ * document, filters the data state to remove the document with the id, and finally sets the loading
+ * state to false for that id.
+ * @param id - the id of the document to be deleted
+ */
     const deleteData = async (id) => {
         try {
-            
-
             setLoading((prev) => ({ ...prev, [id]: true }));
             const docRef = doc(db, "orders", id);
             await deleteDoc(docRef);
@@ -119,13 +131,14 @@ export const useDB = () => {
     }
 
 
+/**
+ * It gets a single order from the database, and if it's successful, it sets the data to the state.
+ * @param id - the id of the document to be retrieved
+ */
     const getSingleOrder = async (id) => {
         try {
-            console.log("el ID a buscar es:" + id );
             setLoading((prev) => ({ ...prev, getSingleOrderLoading: true }));
-            console.log("Estado cambiado a :" + loading);
             const dataDB = (await getDoc(doc(db, 'orders', id))).data()
-
             setData(dataDB)
         } catch (error) {
             console.log(error);
@@ -134,6 +147,11 @@ export const useDB = () => {
             setLoading((prev) => ({ ...prev, getSingleOrderLoading: false }))
         }
     }
+/**
+ * @param status - "approved or negated"
+ * @param currency - "USD"
+ * @param id - the id of the order
+ */
 
     return {
         data, error, loading, getBranch, addBranch, addOrder, getOrders, deleteData, getSingleOrder
