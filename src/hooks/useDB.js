@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { addDoc, collection, deleteDoc, doc, getDocs, getDoc, setDoc, updateDoc } from "firebase/firestore/lite"
 import { auth, db } from "../firebase"
-import { async } from '@firebase/util';
 
 export const useDB = () => {
 
@@ -154,23 +153,57 @@ export const useDB = () => {
  * @param id - the id of the order
  */
 
-    const paymenteManager = async (id) =>{
-
+    const paymenteManager = async (status, currency, ref, amaunt, id) => {
         try {
             setLoading((prev) => ({ ...prev, changingPayment: true }));
-            console.log("Cambiando el pago", id);
-            
+            console.log("Cambiando el pago", status, currency, id);
+            const docRef = doc(db, "orders", id);
+            updateDoc(docRef, {
+                paymentCurrency: currency,
+                paymentStatus: status,
+                ref: ref,
+                paymentAmaunt: amaunt
+            })
+            getSingleOrder(id)
         } catch (error) {
-            
-            
+            console.log(error);
         } finally {
             setLoading((prev) => ({ ...prev, changingPayment: false }));
+        }
+    }
 
+/**
+ * It takes a result and an id, then it updates the result in the database, and then it gets the
+ * updated order from the database.
+ * @param result - the result of the test (positive or negative)
+ * @param id - the id of the order
+ */
+    const resultManager = async (result, id) => {
+        try {
+            setLoading((prev) => ({ ...prev, changingResult: true }));
+            console.log("Cambiando el resultado", result, id);
+            const docRef = doc(db, "orders", id);
+            updateDoc(docRef, { testResult: result })
+            getSingleOrder(id)
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading((prev) => ({ ...prev, changingResult: false }));
         }
 
     }
 
     return {
-        data, error, loading, getBranch, addBranch, addOrder, getOrders, deleteData, getSingleOrder, paymenteManager
+        data, 
+        error, 
+        loading, 
+        getBranch, 
+        addBranch, 
+        addOrder, 
+        getOrders, 
+        deleteData, 
+        getSingleOrder, 
+        paymenteManager, 
+        resultManager
     }
 }
