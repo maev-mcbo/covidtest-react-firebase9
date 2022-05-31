@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { addDoc, collection, deleteDoc, doc, getDocs, getDoc } from "firebase/firestore/lite"
 import { auth, db } from "../firebase"
+import { async } from '@firebase/util';
 
 export const useDB = () => {
 
@@ -135,7 +136,23 @@ export const useDB = () => {
         }
     }
 
+    const paymenteManager = async (id) =>{
+
+        try {
+            setLoading((prev) => ({ ...prev, changingPayment: true }));
+            console.log("Cambiando el pago", id);
+            
+        } catch (error) {
+            
+            
+        } finally {
+            setLoading((prev) => ({ ...prev, changingPayment: false }));
+
+        }
+
+    }
+
     return {
-        data, error, loading, getBranch, addBranch, addOrder, getOrders, deleteData, getSingleOrder
+        data, error, loading, getBranch, addBranch, addOrder, getOrders, deleteData, getSingleOrder, paymenteManager
     }
 }
