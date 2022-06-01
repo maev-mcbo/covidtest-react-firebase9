@@ -14,7 +14,7 @@ const Navbar = () => {
     }
   };
 
-  const tooglemenu = () => {
+  const togglemenu = () => {
     var x = document.getElementById("mobile-menu");
     x.classList.toggle("hidden");
   };
@@ -79,7 +79,7 @@ const Navbar = () => {
       </div>
       {/* Mobile menu button */}
       <div className="md:hidden flex items-center">
-        <button className="outline-none mobile-menu-button">
+        <button onClick={() => {togglemenu()}} className="outline-none mobile-menu-button">
           <svg
             className=" w-6 h-6 text-gray-500 hover:text-green-500 "
             x-show="!showMenu"
