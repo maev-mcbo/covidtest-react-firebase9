@@ -6,7 +6,6 @@ import logo from '../assets/img/logo.png'
 const Navbar = () => {
   const { user, logoutUser } = useContext(UserContext);
 
-  console.log("log nav " + user);
   const handleLogout = async () => {
     try {
       await logoutUser();

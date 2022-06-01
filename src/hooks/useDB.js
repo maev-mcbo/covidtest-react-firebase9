@@ -164,7 +164,6 @@ export const useDB = () => {
                 ref: ref,
                 paymentAmaunt: amaunt
             })
-            getSingleOrder(id)
         } catch (error) {
             console.log(error);
         } finally {
@@ -184,7 +183,6 @@ export const useDB = () => {
             console.log("Cambiando el resultado", result, id);
             const docRef = doc(db, "orders", id);
             updateDoc(docRef, { testResult: result })
-            getSingleOrder(id)
         } catch (error) {
             console.log(error);
         } finally {

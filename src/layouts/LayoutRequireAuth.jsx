@@ -4,7 +4,6 @@ import { UserContext } from "../context/UserProvider";
 
 const LayoutRequireAuth = ({ children }) => {
   const { user } = useContext(UserContext);
-  console.log("log desde requiereauth "+user)
 
   if (!user) {
     return <Navigate to="/login" />;

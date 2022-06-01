@@ -37,6 +37,7 @@ const App = () => {
     <>
       <Navbar />
       <Routes>
+        <Route index element={<Home />} />
         <Route path="/" element={<LayoutRequireAuth />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/order" element={<Order />} />
@@ -48,7 +49,6 @@ const App = () => {
         </Route>
 
         <Route path="/" element={<LayoutContainer />}>
-          <Route index element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Route>

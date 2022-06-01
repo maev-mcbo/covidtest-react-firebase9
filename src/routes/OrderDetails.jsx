@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDB } from "../hooks/useDB";
 
@@ -18,9 +18,12 @@ function OrderDetails() {
     resultManager,
   } = useDB();
 
+  const [trigger, setTrigger] = useState(false)
+
   useEffect(() => {
     getSingleOrder(id);
-  }, []);
+    setTrigger(false)
+  }, [trigger==true]);
 
   const handleDeleteButton = (id) => {
     Swal.fire({
@@ -80,6 +83,7 @@ function OrderDetails() {
           (result) => {
             if (result.isConfirmed) {
               handlePayment();
+              
             }
           }
         );
@@ -113,7 +117,6 @@ function OrderDetails() {
       showConfirmButton: false,
       
       });
-      console.log(JSON.stringify(formValues));
       paymenteManager(
         formValues[0].status,
         formValues[0].currency,
@@ -121,6 +124,7 @@ function OrderDetails() {
         formValues[0].amaunt,
         id
       );
+      setTrigger(true)
     }
   };
 
@@ -167,15 +171,15 @@ function OrderDetails() {
         showConfirmButton: false,
       });
 
-      console.log(JSON.stringify(formValues));
       resultManager(formValues[0].result, id);
+      setTrigger(true)
     }
   };
 
   return (
     <>
       <div>
-        <H1Compontent text="Detalles de la orden" />
+        <H1Compontent className="mb-5" text="Detalles de la orden" />
         <div className=" p-6 mb-5 max-w bg-white rounded-lg border border-gray-200 shadow-md  dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
           {loading.getSingleOrderLoading ? (
             <SpinnerLoader />
@@ -207,7 +211,7 @@ function OrderDetails() {
                 <p className="text-xs">Estado del pago:</p>
                 <p className="align-middle text-xl">
                   {data.paymentStatus}
-                  <span>
+                  <span className="pl-4">
                     <ButtonOutline
                       onClick={() => {
                         handlePayment();
@@ -217,9 +221,9 @@ function OrderDetails() {
                   </span>
                 </p>
                 <p className="text-xs">Resultado: </p>
-                <p className="text-xl pb-4">
+                <p className="text-xl ">
                   {data.testResult}
-                  <span>
+                  <span className="pl-4">
                     <ButtonOutline
                       text="Cargar Resultado"
                       onClick={() => {
