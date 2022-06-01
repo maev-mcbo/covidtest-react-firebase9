@@ -19,6 +19,7 @@ import Not404 from "./routes/Not404";
 import Order from "./routes/Order";
 import Login from "./routes/Login";
 import Home from "./routes/Home";
+import LayoutHome from "./layouts/LayoutHome";
 
 const App = () => {
   const { user } = useContext(UserContext);
@@ -35,9 +36,12 @@ const App = () => {
 
   return (
     <>
-      <Navbar />
       <Routes>
-        <Route index element={<Home />} />
+        <Route path="/" element={<LayoutHome />}>
+      <Navbar />
+          <Route index element={<Home />} />
+        </Route>
+
         <Route path="/" element={<LayoutRequireAuth />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/order" element={<Order />} />
