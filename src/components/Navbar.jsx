@@ -17,7 +17,7 @@ const Navbar = () => {
 
   const tooglemenu = () => {
     var x = document.getElementById("mobile-menu");
-    x.classList.toggle("hidden")
+    x.classList.toggle("sm:hidden")
       
 }
 
