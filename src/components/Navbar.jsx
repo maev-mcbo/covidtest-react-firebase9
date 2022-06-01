@@ -1,142 +1,136 @@
-import { useContext } from "react";
-import { Link, NavLink } from "react-router-dom";
-import { UserContext } from "../context/UserProvider";
+import React, { useContext } from "react";
+import { NavLink } from "react-router-dom";
 import logo from "../assets/img/logo.png";
+import { UserContext } from "../context/UserProvider";
 
-const Navbar = () => {
+function Navbar() {
   const { user, logoutUser } = useContext(UserContext);
-
-  const handleLogout = async () => {
-    try {
-      await logoutUser();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const togglemenu = () => {
-    var x = document.getElementById("mobile-menu");
-    x.classList.toggle("hidden");
+    const el = document.getElementById("menu");
+    el.classList.toggle("hidden");
   };
 
   return (
-    <>
-<nav className="bg-white shadow-lg">
-  <div className="max-w-6xl mx-auto px-4">
-    <div className="flex justify-between">
-      <div className="flex space-x-7">
-        <div>
-          {/* Website Logo */}
-          <a href="#" className="flex items-center py-4 px-2">
-            <img src="logo.png" alt="Logo" className="h-8 w-8 mr-2" />
-            <span className="font-semibold text-gray-500 text-lg">
-              Navigation
-            </span>
+    <header>
+      <nav
+        className="
+        container
+    flex flex-wrap
+    items-center
+    justify-between
+    w-full
+    py-4
+    md:py-0
+    px-4
+    text-lg text-gray-700
+    bg-white
+  "
+      >
+        <div className="">
+          <a href="/">
+            <img src={logo} alt="logo" className="mr-3 h-6 sm:h-9" />
           </a>
         </div>
-        {/* Primary Navbar items */}
-        <div className="hidden md:flex items-center space-x-1">
-          <a
-            href=""
-            className="py-4 px-2 text-green-500 border-b-4 border-green-500 font-semibold "
-          >
-            Home
-          </a>
-          <a
-            href=""
-            className="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300"
-          >
-            Services
-          </a>
-          <a
-            href=""
-            className="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300"
-          >
-            About
-          </a>
-          <a
-            href=""
-            className="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300"
-          >
-            Contact Us
-          </a>
-        </div>
-      </div>
-      {/* Secondary Navbar items */}
-      <div className="hidden md:flex items-center space-x-3 ">
-        <a
-          href=""
-          className="py-2 px-2 font-medium text-gray-500 rounded hover:bg-green-500 hover:text-white transition duration-300"
+        <svg
+          onClick={() => {
+            togglemenu();
+          }}
+          xmlns="http://www.w3.org/2000/svg"
+          id="menu-button"
+          className="h-6 w-6 cursor-pointer md:hidden block"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
         >
-          Log In
-        </a>
-        <a
-          href=""
-          className="py-2 px-2 font-medium text-white bg-green-500 rounded hover:bg-green-400 transition duration-300"
-        >
-          Sign Up
-        </a>
-      </div>
-      {/* Mobile menu button */}
-      <div className="md:hidden flex items-center">
-        <button onClick={() => {togglemenu()}} className="outline-none mobile-menu-button">
-          <svg
-            className=" w-6 h-6 text-gray-500 hover:text-green-500 "
-            x-show="!showMenu"
-            fill="none"
+          <path
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth={2}
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
-      </div>
-    </div>
-  </div>
-  {/* mobile menu */}
-  <div className="hidden mobile-menu">
-    <ul className="">
-      <li className="active">
-        <a
-          href="index.html"
-          className="block text-sm px-2 py-4 text-white bg-green-500 font-semibold"
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        </svg>
+        <div
+          className="hidden w-full md:flex md:items-center md:w-auto"
+          id="menu"
         >
-          Home
-        </a>
-      </li>
-      <li>
-        <a
-          href="#services"
-          className="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300"
-        >
-          Services
-        </a>
-      </li>
-      <li>
-        <a
-          href="#about"
-          className="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300"
-        >
-          About
-        </a>
-      </li>
-      <li>
-        <a
-          href="#contact"
-          className="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300"
-        >
-          Contact Us
-        </a>
-      </li>
-    </ul>
-  </div>
-</nav>
+          <ul className="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium0">
+            <li>
+              <NavLink
+                to="/dashboard"
+                className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                href="#"
+              >
+                Dashboard
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/branches"
+                className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                href="#"
+              >
+                Sucursales
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/order"
+                className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                href="#"
+              >
+                Ordenes
+              </NavLink>
+            </li>
 
+            {user ? (
+              <>
+                <li>
+                  <NavLink
+                    to="/profile"
+                    className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                    href="#"
+                  >
+                    Profile
+                  </NavLink>
+                </li>
 
-    </>
+                <a
+                  onClick={() => {
+                    logoutUser();
+                  }}
+                  className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  href="#"
+                >
+                  Cerrar Sesion
+                </a>
+              </>
+            ) : (
+              <>
+                <li>
+                  <NavLink
+                    to="/login"
+                    className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                    href="#"
+                  >
+                    Login
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/register"
+                    className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                    href="#"
+                  >
+                    Registrarse
+                  </NavLink>
+                </li>
+              </>
+            )}
+          </ul>
+        </div>
+      </nav>
+    </header>
   );
-};
+}
+
 export default Navbar;
