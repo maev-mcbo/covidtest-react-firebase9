@@ -43,6 +43,7 @@ const Login = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormInputText
           type="email"
+          id="email"
           placeholder="Coloque su Correo"
           label="Correo Electrónico"
           error={errors.email}
@@ -53,6 +54,7 @@ const Login = () => {
 
         <FormInputText
           type="password"
+          id="pass"
           label="Contraseña"
           placeholder="ingrese su contraseña"
           {...register("password", { minLength:{value: 6, message: "Contraseña muy corta"} })}

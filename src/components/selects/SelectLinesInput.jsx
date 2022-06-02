@@ -26,8 +26,8 @@ const SelectLinesInput = forwardRef(
         <label htmlFor="lines" className={classlabel}>
           {label}
         </label>
-        <select name={name} ref={ref} onChange={onChange} onBlur={onBlur}id="lines" className={inputlabel}>
-          <option   disabled={true} selected={true}>Seleccione uno</option>
+        <select name={name} ref={ref} defaultValue="default" onChange={onChange} onBlur={onBlur}id="lines" className={inputlabel}>
+          <option   disabled value="default">Seleccione uno</option>
           <option value="rutaca">rutaca</option>
           <option value="conviasa">conviasa</option>
         </select>

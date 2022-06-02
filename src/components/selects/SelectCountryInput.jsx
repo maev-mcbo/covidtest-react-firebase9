@@ -25,8 +25,8 @@ const SelectCountryInput = forwardRef(
         <label htmlFor="country" className={classlabel}>
           {label}
         </label>
-        <select name={name} ref={ref} onChange={onChange} onBlur={onBlur}id="country" className={inputlabel}>
-                <option  disabled={true} >Seleccione uno</option>
+        <select name={name}  defaultValue="default" ref={ref} onChange={onChange} onBlur={onBlur}id="country" className={inputlabel}>
+                <option value="default"  disabled selected>Seleccione uno</option>
                 <option value="Venezuela">Venezuela</option>
                 <option value="Afghanistan">Afghanistan</option>
                 <option value="Åland Islands">Åland Islands</option>

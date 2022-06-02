@@ -16,7 +16,6 @@ const SelectTestInput = forwardRef(
     const classlabel = error ? labelClassError : labelOKClass;
     const inputlabel = error ? inputFieldClassError : inputOKClass;
 
-    //! GENERAR DIAMICAMENTE
     return (
       <>
         <div className="mb-6">
@@ -30,8 +29,9 @@ const SelectTestInput = forwardRef(
             onBlur={onBlur}
             id="testtype"
             className={inputlabel}
+            
           >
-            <option>Seleccione uno</option>
+            <option  disabled value="default">Seleccione uno</option>
             <option value="pcr">PCR</option>
             <option value="antigeno">Antigeno</option>
           </select>

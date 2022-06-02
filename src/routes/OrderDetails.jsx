@@ -5,6 +5,7 @@ import { useDB } from "../hooks/useDB";
 import ButtonOutline from "../components/buttons/ButtonOutline";
 import SpinnerLoader from "../components/SpinnerLoader";
 import H1Compontent from "../components/titles/H1Compontent";
+import SelectPaymentStatus from "../components/selects/SelectPaymentStatus";
 import Swal from "sweetalert2";
 
 function OrderDetails() {
@@ -18,13 +19,25 @@ function OrderDetails() {
     resultManager,
   } = useDB();
 
-  const [trigger, setTrigger] = useState(false)
+  const [trigger, setTrigger] = useState(false);
 
   useEffect(() => {
     getSingleOrder(id);
-    setTrigger(false)
-  }, [trigger==true]);
+    setTrigger(false);
+  }, [trigger == true]);
 
+  /**
+   * When the user clicks the button, the payment div will fade in.
+   */
+  const showPaymentSelect = () => {
+    const el = document.getElementById("payment").classList;
+    el.toggle("hidden");
+
+  };
+
+  /**
+   * If the user clicks the confirm button, then delete the data and go back to the previous page.
+   */
   const handleDeleteButton = (id) => {
     Swal.fire({
       title: "Esta seguro que desea Eliminar esta orden?",
@@ -47,6 +60,12 @@ function OrderDetails() {
     });
   };
 
+  /**
+   * It's a function that opens a modal with a form, and if the form is filled correctly, it closes the
+   * modal and opens a success modal.
+   * I've tried to use the same function to open the success modal, but it
+   * @returns the value of the variable trigger.
+   */
   const handlePayment = async () => {
     const { value: formValues } = await Swal.fire({
       title: "Datos del pago",
@@ -83,7 +102,6 @@ function OrderDetails() {
           (result) => {
             if (result.isConfirmed) {
               handlePayment();
-              
             }
           }
         );
@@ -108,14 +126,14 @@ function OrderDetails() {
         return;
       }
 
-      Swal.fire( {title: "Exito!",
-      text: "Resultado cargado",
-      icon: "success",
-      confirmButtonColor: "#3085d6",
-      timer: 2000,
-      timerProgressBar: true,
-      showConfirmButton: false,
-      
+      Swal.fire({
+        title: "Exito!",
+        text: "Resultado cargado",
+        icon: "success",
+        confirmButtonColor: "#3085d6",
+        timer: 2000,
+        timerProgressBar: true,
+        showConfirmButton: false,
       });
       paymenteManager(
         formValues[0].status,
@@ -124,7 +142,7 @@ function OrderDetails() {
         formValues[0].amaunt,
         id
       );
-      setTrigger(true)
+      setTrigger(true);
     }
   };
 
@@ -172,7 +190,7 @@ function OrderDetails() {
       });
 
       resultManager(formValues[0].result, id);
-      setTrigger(true)
+      setTrigger(true);
     }
   };
 
@@ -219,6 +237,14 @@ function OrderDetails() {
                       text="Agregar Pago"
                     />
                   </span>
+                  <span className="pl-4">
+                    <ButtonOutline
+                      onClick={() => {
+                        showPaymentSelect();
+                      }}
+                      text="Modificar Pago"
+                    />
+                  </span>
                 </p>
                 <p className="text-xs">Resultado: </p>
                 <p className="text-xl ">
@@ -235,13 +261,23 @@ function OrderDetails() {
               </div>
               <div className="item w-4/12 h-32 flex-grow">
                 <p className="text-xs">Id de orden:</p>
-                <p className="text-xl pb-4">{data.id}</p>
+                <p className="text-xl pb-4">{id}</p>
                 <p className="text-xs">Telefono:</p>
                 <p className="text-xl pb-4">{data.phone}</p>
                 <p className="text-xs">destino:</p>
                 <p className="text-xl pb-4">{data.dest}</p>
                 <p className="text-xs"># de vuelo:</p>
                 <p className="text-xl pb-4">{data.fseat}</p>
+                <div id="payment" className="hidden">
+                  <SelectPaymentStatus />
+                  <span>
+                    <ButtonOutline text="confirmar" onClick={() => {
+                          const el = document.getElementById("payment").classList;
+                          el.toggle("hidden" );
+                          
+                    }}/>
+                  </span>
+                </div>
               </div>
             </div>
           )}

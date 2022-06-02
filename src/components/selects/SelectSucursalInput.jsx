@@ -36,8 +36,9 @@ const SelectSucursalInput = forwardRef(
             onBlur={onBlur}
             id="suc"
             className={inputlabel}
+            defaultValue="default"
           >
-            <option disabled={true} selected={true}>
+            <option  disabled value="default">
               Seleccione uno
             </option>
             {data ? (

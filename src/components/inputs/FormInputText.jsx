@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
 
 const FormInputText = forwardRef(
-  ({ type, placeholder, onChange, onBlur, name, label, children,error }, ref) => {
+  ({ type, placeholder, onChange, onBlur, name, label, children,error, id }, ref) => {
 
     //error classes
     const labelClassError= "block mb-2 text-sm font-medium text-red-700 dark:text-red-500"
@@ -31,7 +31,7 @@ const FormInputText = forwardRef(
             onChange={onChange}
             onBlur={onBlur}
             name={name}
-            id="inputForm"
+            id={id}
             autoComplete="off"
             className={inputlabel}
           />

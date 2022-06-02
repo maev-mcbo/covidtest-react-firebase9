@@ -25,8 +25,8 @@ const SelectGenderInput = forwardRef(
         <label htmlFor="payment" className={classlabel}>
           {label}
         </label>
-        <select name={name} ref={ref} onChange={onChange} onBlur={onBlur}id="payment" placeholder="Seleccione 3" className={inputlabel}>
-        <option  disabled={true} selected={true} >Seleccione uno</option>
+        <select name={name} defaultValue="default" ref={ref} onChange={onChange} onBlur={onBlur}id="payment" placeholder="Seleccione 3" className={inputlabel}>
+        <option  disabled={true} value="default" >Seleccione uno</option>
           <option value="Aprobado">Aprobado</option>
           <option value="Negado">Negado</option>
         </select>
